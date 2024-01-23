@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "330357973249",
+    "project_id": "kairos-b9a9b",
+    "storage_bucket": "kairos-b9a9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330357973249:android:32c1a915d7bb844c01fb00",
+        "android_client_info": {
+          "package_name": "com.example.kairos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyXYwwZy3pmwwE0JX_AWHYqXcWf85pQOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
