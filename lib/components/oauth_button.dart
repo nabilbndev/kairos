@@ -12,7 +12,6 @@ class SocialAuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(7),
       onTap: onTap,
       splashColor: Colors.grey.withOpacity(0.1),
       highlightColor: Colors.grey.withOpacity(0.2),

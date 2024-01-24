@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kairos/components/kairos_logo.dart';
-import 'package:kairos/components/social_auth_button.dart';
+import 'package:kairos/components/oauth_button.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -26,14 +26,11 @@ class LoginPage extends StatelessWidget {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 25,
                 ),
                 const KairosLogo(),
                 const SizedBox(
-                  height: 10,
-                ),
-                const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 SocialAuthButton(
                     onTap: () {},
