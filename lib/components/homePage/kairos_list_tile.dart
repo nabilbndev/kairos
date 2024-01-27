@@ -37,7 +37,28 @@ class KairosListTile extends StatelessWidget {
           ),
           Row(
             children: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+              IconButton(
+                  onPressed: () {
+                    FirebaseFirestore firestore = FirebaseFirestore.instance;
+                    var docId = listDocumentReference.id;
+                    firestore
+                        .collection("lists")
+                        .doc(docId)
+                        .delete()
+                        .then((_) => {
+                              firestore
+                                  .collection("tasks")
+                                  .where("listId", isEqualTo: docId)
+                                  .get()
+                                  .then((snapshot) => {
+                                        // ignore: avoid_function_literals_in_foreach_calls
+                                        snapshot.docs.forEach((doc) async {
+                                          await doc.reference.delete();
+                                        })
+                                      })
+                            });
+                  },
+                  icon: const Icon(Icons.delete)),
             ],
           )
         ],

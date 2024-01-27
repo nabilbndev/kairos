@@ -36,7 +36,13 @@ class KairosTaskTile extends StatelessWidget {
           ),
           Row(
             children: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+              IconButton(
+                  onPressed: () async {
+                    FirebaseFirestore firestore = FirebaseFirestore.instance;
+                    var docId = taskDocumentReference.id;
+                    await firestore.collection("tasks").doc(docId).delete();
+                  },
+                  icon: const Icon(Icons.delete)),
             ],
           )
         ],
