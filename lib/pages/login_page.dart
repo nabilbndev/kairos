@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kairos/components/kairos_logo.dart';
-import 'package:kairos/components/oauth_button.dart';
+import 'package:kairos/components/login/kairos_logo.dart';
+import 'package:kairos/components/login/oauth_button.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -49,12 +49,10 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                SocialAuthButton(
+                const SocialAuthButton(
                     imagePath: "assets/guest.png",
                     text: "Continue as guest",
-                    onTap: () {
-                      FirebaseAuth.instance.signInAnonymously();
-                    })
+                    onTap: guestSignIn)
               ],
             ),
           ),
@@ -62,6 +60,10 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+}
+
+guestSignIn() async {
+  await FirebaseAuth.instance.signInAnonymously();
 }
 
 Future<UserCredential> signInWithGoogle() async {

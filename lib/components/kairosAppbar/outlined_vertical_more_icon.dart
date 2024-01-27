@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MoreVerticalCircular extends StatelessWidget {
-  const MoreVerticalCircular(
+class OutlinedVerticalMoreIcon extends StatelessWidget {
+  const OutlinedVerticalMoreIcon(
       {super.key, required this.onTap, required this.color});
   final VoidCallback onTap;
   final Color color;

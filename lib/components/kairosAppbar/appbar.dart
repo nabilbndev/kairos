@@ -1,21 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/kairos_avatar_wrapper.dart';
-import 'package:kairos/components/more_vert_circular.dart';
+import 'package:kairos/components/kairosAppbar/avatar_wrapper.dart';
+import 'package:kairos/components/kairosAppbar/outlined_vertical_more_icon.dart';
 
-class KairosCustomAppBar extends StatelessWidget {
-  const KairosCustomAppBar({
+class KairosAppBar extends StatelessWidget {
+  const KairosAppBar({
     super.key,
-    required this.userPhotoUrl,
-    required this.userDisplayName,
-    required this.userEmail,
   });
-
-  final String? userPhotoUrl;
-  final String? userDisplayName;
-  final String? userEmail;
 
   @override
   Widget build(BuildContext context) {
+    final userDisplayName = FirebaseAuth.instance.currentUser?.displayName;
+    final userPhotoUrl = FirebaseAuth.instance.currentUser?.photoURL;
+    final userEmail = FirebaseAuth.instance.currentUser?.email;
     return InkWell(
       onTap: () {},
       child: Padding(
@@ -25,7 +22,7 @@ class KairosCustomAppBar extends StatelessWidget {
           children: [
             Row(
               children: [
-                KairosAvatarWrapper(userPhotoUrl: userPhotoUrl),
+                AvatarWrapper(userPhotoUrl: userPhotoUrl),
                 const SizedBox(
                   width: 10,
                 ),
@@ -49,14 +46,14 @@ class KairosCustomAppBar extends StatelessWidget {
                             style: TextStyle(fontSize: 12),
                           )
                         : Text(
-                            userEmail!,
+                            userEmail,
                             style: const TextStyle(fontSize: 12),
                           )
                   ],
                 ),
               ],
             ),
-            MoreVerticalCircular(
+            OutlinedVerticalMoreIcon(
               color: Colors.black87,
               onTap: () {},
             )

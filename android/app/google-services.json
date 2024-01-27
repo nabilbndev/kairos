@@ -12,7 +12,20 @@
           "package_name": "com.example.kairos"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "330357973249-2pq63dbjvq6sgm36suh3p7non90t5pqf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kairos",
+            "certificate_hash": "fc0806c13d8330fc12167185893a17f565740b47"
+          }
+        },
+        {
+          "client_id": "330357973249-7o7upvtf3bv9t4b3k1er48g8f0a27ock.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDyXYwwZy3pmwwE0JX_AWHYqXcWf85pQOo"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330357973249-7o7upvtf3bv9t4b3k1er48g8f0a27ock.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

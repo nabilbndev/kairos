@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class KairosAvatarWrapper extends StatelessWidget {
-  const KairosAvatarWrapper({
+class AvatarWrapper extends StatelessWidget {
+  const AvatarWrapper({
     super.key,
     required this.userPhotoUrl,
   });
