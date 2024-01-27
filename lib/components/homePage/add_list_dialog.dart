@@ -12,17 +12,20 @@ class AddListDialog extends StatelessWidget {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     final TextEditingController listNameController = TextEditingController();
-
     addList() async {
-      await firestore
+      final listDocumentReference = firestore
           .collection("lists")
-          .add({
-            "listName": listNameController.text,
-            "userId": userId,
-            "documentId": firestore.collection("collection").doc().id
-          })
-          .then((value) => {listNameController.clear()})
-          .then((value) => {Navigator.pop(context)});
+          .doc(); // Create a document reference with a new ID
+
+      await listDocumentReference.set({
+        "listName": listNameController.text,
+        "userId": userId,
+        "id": listDocumentReference
+            .id, // Assign the document ID to the "id" field
+      }).then((value) => {
+            listNameController.clear(),
+            Navigator.pop(context)
+          }); // Create the document with the specified ID and data
     }
 
     return AlertDialog(

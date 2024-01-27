@@ -61,9 +61,11 @@ class HomePage extends StatelessWidget {
                           return ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              DocumentSnapshot docRef =
+                              DocumentSnapshot listDocumentReference =
                                   snapshot.data!.docs[index];
-                              return KairosListTile(docRef: docRef);
+                              return KairosListTile(
+                                listDocumentReference: listDocumentReference,
+                              );
                             },
                           );
                       }

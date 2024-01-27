@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kairos/components/login/kairos_logo.dart';
-import 'package:kairos/components/login/oauth_button.dart';
+import 'package:kairos/components/loginPage/kairos_logo.dart';
+import 'package:kairos/components/loginPage/oauth_button.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

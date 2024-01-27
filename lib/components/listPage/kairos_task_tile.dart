@@ -1,28 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/pages/kairos_list_page.dart';
 
-class KairosListTile extends StatelessWidget {
-  const KairosListTile({
+class KairosTaskTile extends StatelessWidget {
+  const KairosTaskTile({
     super.key,
-    required this.listDocumentReference,
+    required this.taskDocumentReference,
   });
 
-  final DocumentSnapshot<Object?> listDocumentReference;
+  final DocumentSnapshot<Object?> taskDocumentReference;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.grey,
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            // ignore: prefer_const_constructors
-            return KairosListPage(
-              documentReference: listDocumentReference,
-            );
-          },
-        ));
+        // Navigator.push(context, MaterialPageRoute(
+        //   builder: (context) {
+        //     // ignore: prefer_const_constructors
+        //     return KairosListPage(
+        //       documentReference: taskDocumentReference,
+        //     );
+        //   },
+        // ));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,7 +30,7 @@ class KairosListTile extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(listDocumentReference["listName"]),
+                child: Text(taskDocumentReference["taskName"]),
               ),
             ],
           ),
