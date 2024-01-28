@@ -1,26 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class UpdateTaskDialog extends StatelessWidget {
-  const UpdateTaskDialog({
+class AddListModal extends StatefulWidget {
+  const AddListModal({
     super.key,
-    required this.taskDocumentReference,
   });
-  final DocumentSnapshot<Object?> taskDocumentReference;
+
+  @override
+  State<AddListModal> createState() => _AddListModalState();
+}
+
+class _AddListModalState extends State<AddListModal> {
+  final TextEditingController listNameController = TextEditingController();
+  final userId = FirebaseAuth.instance.currentUser?.uid;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  addList() async {
+    final listDocumentReference = firestore
+        .collection("lists")
+        .doc(); // Create a document reference with a new ID
+
+    await listDocumentReference.set({
+      "listName": listNameController.text,
+      "userId": userId,
+      "id":
+          listDocumentReference.id, // Assign the document ID to the "id" field
+    }).then((value) => {
+          listNameController.clear(),
+          Navigator.pop(context)
+        }); // Create the document with the specified ID and data
+  }
 
   @override
   Widget build(BuildContext context) {
-    final updateNameController = TextEditingController();
-    var docId = taskDocumentReference.id;
-
-    updateTask() {
-      FirebaseFirestore.instance
-          .collection("tasks")
-          .doc(docId)
-          .update({"taskName": updateNameController.text}).then((value) =>
-              {updateNameController.clear(), Navigator.pop(context)});
-    }
-
     return Container(
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -45,7 +57,7 @@ class UpdateTaskDialog extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(left: 15),
               child: Text(
-                "Update task name",
+                "You can add a new list.",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
               ),
             ),
@@ -66,7 +78,7 @@ class UpdateTaskDialog extends StatelessWidget {
                     ),
                     contentPadding: const EdgeInsets.all(10),
                     border: const OutlineInputBorder()),
-                controller: updateNameController,
+                controller: listNameController,
                 autofocus: true,
               ),
             ),
@@ -83,10 +95,10 @@ class UpdateTaskDialog extends StatelessWidget {
                     )),
                 TextButton(
                     onPressed: () {
-                      updateTask();
+                      addList();
                     },
                     child: const Text(
-                      "Update",
+                      "Add",
                       style: TextStyle(color: Colors.black, fontSize: 18),
                     )),
               ],

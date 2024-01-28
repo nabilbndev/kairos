@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kairos/components/kairosAppbar/appbar.dart';
-import 'package:kairos/components/listPage/add_task_dialog.dart';
+import 'package:kairos/components/listPage/add_task_modal.dart';
 import 'package:kairos/components/listPage/kairos_task_tile.dart';
 
 class KairosListPage extends StatelessWidget {
@@ -37,7 +37,7 @@ class KairosListPage extends StatelessWidget {
                           isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return AddTaskDialog(
+                            return AddTaskModal(
                               listId: documentReference["id"],
                             );
                           },

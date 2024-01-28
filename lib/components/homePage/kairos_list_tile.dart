@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/homePage/update_list.dart';
+import 'package:kairos/components/homePage/update_list_modal.dart';
 import 'package:kairos/pages/kairos_list_page.dart';
 
 class KairosListTile extends StatelessWidget {
@@ -44,7 +44,7 @@ class KairosListTile extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
-                        return UpdateListDialog(
+                        return UpdateListModal(
                             listDocumentReference: listDocumentReference);
                       },
                     );

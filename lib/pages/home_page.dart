@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/homePage/add_list_dialog.dart';
+import 'package:kairos/components/homePage/add_list_modal.dart';
 import 'package:kairos/components/homePage/kairos_list_tile.dart';
 import 'package:kairos/components/kairosAppbar/appbar.dart';
 
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                           isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return const AddListDialog();
+                            return const AddListModal();
                           },
                         );
                       },

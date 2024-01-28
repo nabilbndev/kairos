@@ -1,17 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class UpdateListDialog extends StatelessWidget {
-  const UpdateListDialog({
+class UpdateListModal extends StatefulWidget {
+  const UpdateListModal({
     super.key,
     required this.listDocumentReference,
   });
   final DocumentSnapshot<Object?> listDocumentReference;
 
   @override
+  State<UpdateListModal> createState() => _UpdateListModalState();
+}
+
+class _UpdateListModalState extends State<UpdateListModal> {
+  final updateNameController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    var docId = listDocumentReference.id;
-    final updateNameController = TextEditingController();
+    var docId = widget.listDocumentReference.id;
 
     updateList() {
       FirebaseFirestore.instance
