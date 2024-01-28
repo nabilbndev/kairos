@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/homePage/update_list.dart';
 import 'package:kairos/pages/kairos_list_page.dart';
 
 class KairosListTile extends StatelessWidget {
@@ -47,7 +48,7 @@ class KairosListTile extends StatelessWidget {
                       },
                     );
                   },
-                  icon: Icon(Icons.edit)),
+                  icon: const Icon(Icons.edit)),
               IconButton(
                   onPressed: () {
                     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -74,45 +75,6 @@ class KairosListTile extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class UpdateListDialog extends StatelessWidget {
-  const UpdateListDialog({
-    super.key,
-    required this.listDocumentReference,
-  });
-  final DocumentSnapshot<Object?> listDocumentReference;
-
-  @override
-  Widget build(BuildContext context) {
-    final updateNameController = TextEditingController();
-    return AlertDialog(
-      title: Text("Update list Name"),
-      content: TextField(
-        controller: updateNameController,
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Cancel")),
-        TextButton(
-            onPressed: () {
-              var docId = listDocumentReference.id;
-              FirebaseFirestore.instance
-                  .collection("lists")
-                  .doc(docId)
-                  .update({"listName": updateNameController.text}).then(
-                      (value) => {
-                            updateNameController.clear(),
-                            Navigator.pop(context)
-                          });
-            },
-            child: Text("Update")),
-      ],
     );
   }
 }
