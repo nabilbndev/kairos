@@ -36,28 +36,37 @@ class AddTaskDialog extends StatelessWidget {
                   width: 70,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withOpacity(0.3),
                   ),
                 )),
-            const Divider(
-              color: Colors.grey,
-              thickness: 0.2,
-              height: 1,
-            ),
             const SizedBox(
-              height: 5,
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15),
+              child: Text(
+                "You can add a new task.",
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors
-                              .orange, // Set your desired border color here
-                          width: 2.0, // Optionally adjust border width
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+                mouseCursor: MaterialStateMouseCursor.clickable,
+                decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                              .withOpacity(0.5),
+                          width: 1.5),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 1.5),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    contentPadding: const EdgeInsets.all(10),
+                    border: const OutlineInputBorder()),
                 controller: taskNameController,
                 autofocus: true,
               ),
