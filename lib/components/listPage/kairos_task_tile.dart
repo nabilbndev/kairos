@@ -39,7 +39,8 @@ class KairosTaskTile extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    showDialog(
+                    showModalBottomSheet(
+                      isScrollControlled: true,
                       context: context,
                       builder: (context) {
                         return UpdateTaskDialog(
