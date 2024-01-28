@@ -32,7 +32,8 @@ class HomePage extends StatelessWidget {
                   ),
                   IconButton(
                       onPressed: () {
-                        showDialog(
+                        showModalBottomSheet(
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
                             return const AddListDialog();

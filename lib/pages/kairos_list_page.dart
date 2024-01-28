@@ -33,7 +33,8 @@ class KairosListPage extends StatelessWidget {
                   ),
                   IconButton(
                       onPressed: () {
-                        showDialog(
+                        showModalBottomSheet(
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
                             return AddTaskDialog(
