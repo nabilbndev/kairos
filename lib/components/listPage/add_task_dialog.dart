@@ -52,7 +52,6 @@ class AddTaskDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: TextField(
-                mouseCursor: MaterialStateMouseCursor.clickable,
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
