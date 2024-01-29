@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/TaskPage/update_task_modal.dart';
+import 'package:kairos/components/Common/update_item_modal.dart';
 
 class KairosTaskTile extends StatelessWidget {
   const KairosTaskTile({
@@ -12,6 +12,17 @@ class KairosTaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var docId = taskDocumentReference.id;
+    final updateTaskController = TextEditingController();
+
+    updateTask() {
+      FirebaseFirestore.instance
+          .collection("tasks")
+          .doc(docId)
+          .update({"taskName": updateTaskController.text}).then((value) =>
+              {updateTaskController.clear(), Navigator.pop(context)});
+    }
+
     return InkWell(
       splashColor: Colors.grey,
       onTap: () {
@@ -43,8 +54,10 @@ class KairosTaskTile extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
-                        return UpdateTaskModal(
-                            taskDocumentReference: taskDocumentReference);
+                        return UpdateItemModal(
+                            title: "Update task",
+                            textController: updateTaskController,
+                            onTap: updateTask);
                       },
                     );
                   },

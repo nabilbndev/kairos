@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/ListPage/update_list_modal.dart';
+import 'package:kairos/components/Common/update_item_modal.dart';
 import 'package:kairos/pages/task_page.dart';
 
 class KairosListTile extends StatelessWidget {
@@ -13,6 +13,17 @@ class KairosListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var docId = listDocumentReference.id;
+    final updateNameController = TextEditingController();
+
+    updateList() {
+      FirebaseFirestore.instance
+          .collection("lists")
+          .doc(docId)
+          .update({"listName": updateNameController.text}).then((value) =>
+              {updateNameController.clear(), Navigator.pop(context)});
+    }
+
     return InkWell(
       splashColor: Colors.grey,
       onTap: () {
@@ -44,8 +55,10 @@ class KairosListTile extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
-                        return UpdateListModal(
-                            listDocumentReference: listDocumentReference);
+                        return UpdateItemModal(
+                            title: "Update list",
+                            textController: updateNameController,
+                            onTap: updateList);
                       },
                     );
                   },

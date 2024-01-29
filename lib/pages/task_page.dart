@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/TaskPage/add_task_modal.dart';
-import 'package:kairos/components/TaskPage/kairos_task_tile.dart';
+import 'package:kairos/components/Common/add_item_modal.dart';
+import 'package:kairos/components/TaskPage/task_tile.dart';
 
 class TaskPage extends StatelessWidget {
   const TaskPage({super.key, required this.documentReference});
@@ -11,6 +11,18 @@ class TaskPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final TextEditingController taskNameController = TextEditingController();
+
+    addTask() async {
+      final taskDocumentReference = firestore.collection("tasks").doc();
+      await taskDocumentReference.set({
+        "taskName": taskNameController.text,
+        "userId": userId,
+        "listId": documentReference["id"],
+        "id": taskDocumentReference.id,
+      }).then((value) => {taskNameController.clear(), Navigator.pop(context)});
+    }
+
     Stream stream = firestore
         .collection('tasks')
         .where("userId", isEqualTo: userId)
@@ -37,9 +49,10 @@ class TaskPage extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (context) {
-                    return AddTaskModal(
-                      listId: documentReference["id"],
-                    );
+                    return AddItemModal(
+                        title: "Add a new Task",
+                        textController: taskNameController,
+                        onTap: addTask);
                   },
                 );
               },

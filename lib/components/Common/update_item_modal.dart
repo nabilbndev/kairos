@@ -1,37 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kairos/components/Common/kairos_text_button.dart';
 
-class AddListModal extends StatefulWidget {
-  const AddListModal({
-    super.key,
-  });
+class UpdateItemModal extends StatefulWidget {
+  const UpdateItemModal(
+      {super.key,
+      required this.title,
+      required this.textController,
+      required this.onTap});
+  final String title;
+  final TextEditingController textController;
+  final VoidCallback onTap;
 
   @override
-  State<AddListModal> createState() => _AddListModalState();
+  State<UpdateItemModal> createState() => _AddItemModalState();
 }
 
-class _AddListModalState extends State<AddListModal> {
-  final TextEditingController listNameController = TextEditingController();
-  final userId = FirebaseAuth.instance.currentUser?.uid;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  addList() async {
-    final listDocumentReference = firestore
-        .collection("lists")
-        .doc(); // Create a document reference with a new ID
-
-    await listDocumentReference.set({
-      "listName": listNameController.text,
-      "userId": userId,
-      "id":
-          listDocumentReference.id, // Assign the document ID to the "id" field
-    }).then((value) => {
-          listNameController.clear(),
-          Navigator.pop(context)
-        }); // Create the document with the specified ID and data
-  }
-
+class _AddItemModalState extends State<UpdateItemModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,11 +39,12 @@ class _AddListModalState extends State<AddListModal> {
             const SizedBox(
               height: 20,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 15),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
               child: Text(
-                "Add a new list",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                widget.title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
             Padding(
@@ -79,7 +64,7 @@ class _AddListModalState extends State<AddListModal> {
                     ),
                     contentPadding: const EdgeInsets.all(10),
                     border: const OutlineInputBorder()),
-                controller: listNameController,
+                controller: widget.textController,
                 autofocus: true,
               ),
             ),
@@ -93,6 +78,7 @@ class _AddListModalState extends State<AddListModal> {
                       buttonBorderColor: Colors.grey.withOpacity(0.5),
                       textColor: Colors.red,
                       onTap: () {
+                        widget.textController.clear();
                         Navigator.pop(context);
                       },
                       text: "Cancel"),
@@ -103,8 +89,8 @@ class _AddListModalState extends State<AddListModal> {
                       buttonColor: Colors.black,
                       buttonBorderColor: Colors.black,
                       textColor: Colors.white,
-                      onTap: addList,
-                      text: "Add")
+                      onTap: widget.onTap,
+                      text: "Update")
                 ],
               ),
             )

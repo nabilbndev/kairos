@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/ListPage/add_list_modal.dart';
+import 'package:kairos/components/Common/add_item_modal.dart';
 import 'package:kairos/components/ListPage/kairos_list_tile.dart';
 import 'package:kairos/components/kairosAppbar/appbar.dart';
 
@@ -12,6 +12,25 @@ class ListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    final TextEditingController listNameController = TextEditingController();
+
+    addList() async {
+      final listDocumentReference = firestore
+          .collection("lists")
+          .doc(); // Create a document reference with a new ID
+
+      await listDocumentReference.set({
+        "listName": listNameController.text,
+        "userId": userId,
+        "id": listDocumentReference
+            .id, // Assign the document ID to the "id" field
+      }).then((value) => {
+            listNameController.clear(),
+            Navigator.pop(context)
+          }); // Create the document with the specified ID and data
+    }
+
     Stream stream = firestore
         .collection('lists')
         .where("userId", isEqualTo: userId)
@@ -40,7 +59,10 @@ class ListPage extends StatelessWidget {
                           isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return const AddListModal();
+                            return AddItemModal(
+                                title: "Add a new list",
+                                textController: listNameController,
+                                onTap: addList);
                           },
                         );
                       },

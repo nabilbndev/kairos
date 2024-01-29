@@ -1,31 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kairos/components/Common/kairos_text_button.dart';
 
-class AddTaskModal extends StatefulWidget {
-  const AddTaskModal({super.key, required this.listId});
-  final String listId;
+class AddItemModal extends StatefulWidget {
+  const AddItemModal(
+      {super.key,
+      required this.title,
+      required this.textController,
+      required this.onTap});
+  final String title;
+  final TextEditingController textController;
+  final VoidCallback onTap;
 
   @override
-  State<AddTaskModal> createState() => _AddTaskModalState();
+  State<AddItemModal> createState() => _AddItemModalState();
 }
 
-class _AddTaskModalState extends State<AddTaskModal> {
-  final TextEditingController taskNameController = TextEditingController();
-  final userId = FirebaseAuth.instance.currentUser?.uid;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  addTask() async {
-    final taskDocumentReference = firestore.collection("tasks").doc();
-    await taskDocumentReference.set({
-      "taskName": taskNameController.text,
-      "userId": userId,
-      "listId": widget.listId,
-      "id": taskDocumentReference.id,
-    }).then((value) => {taskNameController.clear(), Navigator.pop(context)});
-  }
-
+class _AddItemModalState extends State<AddItemModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,11 +39,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
             const SizedBox(
               height: 20,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 15),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
               child: Text(
-                "Add a new task.",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                widget.title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
             Padding(
@@ -73,7 +64,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                     ),
                     contentPadding: const EdgeInsets.all(10),
                     border: const OutlineInputBorder()),
-                controller: taskNameController,
+                controller: widget.textController,
                 autofocus: true,
               ),
             ),
@@ -87,6 +78,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                       buttonBorderColor: Colors.grey.withOpacity(0.5),
                       textColor: Colors.red,
                       onTap: () {
+                        widget.textController.clear();
                         Navigator.pop(context);
                       },
                       text: "Cancel"),
@@ -97,7 +89,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                       buttonColor: Colors.black,
                       buttonBorderColor: Colors.black,
                       textColor: Colors.white,
-                      onTap: addTask,
+                      onTap: widget.onTap,
                       text: "Add")
                 ],
               ),
