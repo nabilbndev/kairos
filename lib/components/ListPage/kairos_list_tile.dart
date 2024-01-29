@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/homePage/update_list_modal.dart';
-import 'package:kairos/pages/kairos_list_page.dart';
+import 'package:kairos/components/ListPage/update_list_modal.dart';
+import 'package:kairos/pages/task_page.dart';
 
 class KairosListTile extends StatelessWidget {
   const KairosListTile({
@@ -19,7 +19,7 @@ class KairosListTile extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             // ignore: prefer_const_constructors
-            return KairosListPage(
+            return TaskPage(
               documentReference: listDocumentReference,
             );
           },

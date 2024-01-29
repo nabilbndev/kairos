@@ -14,7 +14,44 @@ class KairosAppBar extends StatelessWidget {
     final userPhotoUrl = FirebaseAuth.instance.currentUser?.photoURL;
     final userEmail = FirebaseAuth.instance.currentUser?.email;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        child: Container(
+                          height: 8,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey.withOpacity(0.3),
+                          ),
+                        )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextButton(
+                        onPressed: () async {
+                          await FirebaseAuth.instance
+                              .signOut()
+                              .then((value) => Navigator.pop(context));
+                        },
+                        child: const Text(
+                          "SignOut",
+                          style: TextStyle(color: Colors.red),
+                        ))
+                  ],
+                ));
+          },
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
         child: Row(

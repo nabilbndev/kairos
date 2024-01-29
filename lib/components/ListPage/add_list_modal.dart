@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/Common/kairos_text_button.dart';
 
 class AddListModal extends StatefulWidget {
   const AddListModal({
@@ -57,8 +58,8 @@ class _AddListModalState extends State<AddListModal> {
             const Padding(
               padding: EdgeInsets.only(left: 15),
               child: Text(
-                "You can add a new list.",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                "Add a new list",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
             Padding(
@@ -82,26 +83,30 @@ class _AddListModalState extends State<AddListModal> {
                 autofocus: true,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.red, fontSize: 18),
-                    )),
-                TextButton(
-                    onPressed: () {
-                      addList();
-                    },
-                    child: const Text(
-                      "Add",
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    )),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  KairosTextButton(
+                      buttonColor: Colors.white,
+                      buttonBorderColor: Colors.grey.withOpacity(0.5),
+                      textColor: Colors.red,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      text: "Cancel"),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  KairosTextButton(
+                      buttonColor: Colors.black,
+                      buttonBorderColor: Colors.black,
+                      textColor: Colors.white,
+                      onTap: addList,
+                      text: "Add")
+                ],
+              ),
             )
           ],
         ));

@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/homePage/add_list_modal.dart';
-import 'package:kairos/components/homePage/kairos_list_tile.dart';
+import 'package:kairos/components/ListPage/add_list_modal.dart';
+import 'package:kairos/components/ListPage/kairos_list_tile.dart';
 import 'package:kairos/components/kairosAppbar/appbar.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ListPage extends StatelessWidget {
+  const ListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,11 @@ class HomePage extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(left: 15),
-                    child: Text("Lists"),
+                    child: Text(
+                      "Lists",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
                   ),
                   IconButton(
                       onPressed: () {

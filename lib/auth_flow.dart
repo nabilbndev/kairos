@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/pages/home_page.dart';
+import 'package:kairos/pages/list_page.dart';
 import 'package:kairos/pages/login_page.dart';
 
 class AuthFlow extends StatelessWidget {
@@ -13,7 +13,7 @@ class AuthFlow extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const HomePage();
+            return const ListPage();
           } else {
             return const LoginPage();
           }

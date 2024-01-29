@@ -1,29 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/Common/kairos_text_button.dart';
 
-class UpdateListModal extends StatefulWidget {
-  const UpdateListModal({
+class UpdateTaskModal extends StatefulWidget {
+  const UpdateTaskModal({
     super.key,
-    required this.listDocumentReference,
+    required this.taskDocumentReference,
   });
-  final DocumentSnapshot<Object?> listDocumentReference;
+  final DocumentSnapshot<Object?> taskDocumentReference;
 
   @override
-  State<UpdateListModal> createState() => _UpdateListModalState();
+  State<UpdateTaskModal> createState() => _UpdateTaskModalState();
 }
 
-class _UpdateListModalState extends State<UpdateListModal> {
+class _UpdateTaskModalState extends State<UpdateTaskModal> {
   final updateNameController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    var docId = widget.listDocumentReference.id;
+    var docId = widget.taskDocumentReference.id;
 
-    updateList() {
+    updateTask() {
       FirebaseFirestore.instance
-          .collection("lists")
+          .collection("tasks")
           .doc(docId)
-          .update({"listName": updateNameController.text}).then((value) =>
+          .update({"taskName": updateNameController.text}).then((value) =>
               {updateNameController.clear(), Navigator.pop(context)});
     }
 
@@ -51,8 +51,8 @@ class _UpdateListModalState extends State<UpdateListModal> {
             const Padding(
               padding: EdgeInsets.only(left: 15),
               child: Text(
-                "Update list name",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                "Update task name",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
             Padding(
@@ -76,26 +76,30 @@ class _UpdateListModalState extends State<UpdateListModal> {
                 autofocus: true,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.red, fontSize: 18),
-                    )),
-                TextButton(
-                    onPressed: () {
-                      updateList();
-                    },
-                    child: const Text(
-                      "Update",
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    )),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  KairosTextButton(
+                      buttonColor: Colors.white,
+                      buttonBorderColor: Colors.grey.withOpacity(0.5),
+                      textColor: Colors.red,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      text: "Cancel"),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  KairosTextButton(
+                      buttonColor: Colors.black,
+                      buttonBorderColor: Colors.black,
+                      textColor: Colors.white,
+                      onTap: updateTask,
+                      text: "Update")
+                ],
+              ),
             )
           ],
         ));

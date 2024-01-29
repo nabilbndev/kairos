@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kairos/components/listPage/update_task_modal.dart';
+import 'package:kairos/components/TaskPage/update_task_modal.dart';
 
 class KairosTaskTile extends StatelessWidget {
   const KairosTaskTile({
