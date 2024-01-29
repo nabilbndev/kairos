@@ -13,15 +13,31 @@ class KairosListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var docId = listDocumentReference.id;
     final updateNameController = TextEditingController();
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    var docId = listDocumentReference.id;
 
-    updateList() {
-      FirebaseFirestore.instance
+    updateList() async {
+      await firestore
           .collection("lists")
           .doc(docId)
           .update({"listName": updateNameController.text}).then((value) =>
               {updateNameController.clear(), Navigator.pop(context)});
+    }
+
+    deleteList() async {
+      await firestore.collection("lists").doc(docId).delete().then((_) => {
+            firestore
+                .collection("tasks")
+                .where("listId", isEqualTo: docId)
+                .get()
+                .then((snapshot) => {
+                      // ignore: avoid_function_literals_in_foreach_calls
+                      snapshot.docs.forEach((doc) async {
+                        await doc.reference.delete();
+                      })
+                    })
+          });
     }
 
     return InkWell(
@@ -63,28 +79,7 @@ class KairosListTile extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.edit)),
-              IconButton(
-                  onPressed: () {
-                    FirebaseFirestore firestore = FirebaseFirestore.instance;
-                    var docId = listDocumentReference.id;
-                    firestore
-                        .collection("lists")
-                        .doc(docId)
-                        .delete()
-                        .then((_) => {
-                              firestore
-                                  .collection("tasks")
-                                  .where("listId", isEqualTo: docId)
-                                  .get()
-                                  .then((snapshot) => {
-                                        // ignore: avoid_function_literals_in_foreach_calls
-                                        snapshot.docs.forEach((doc) async {
-                                          await doc.reference.delete();
-                                        })
-                                      })
-                            });
-                  },
-                  icon: const Icon(Icons.delete)),
+              IconButton(onPressed: deleteList, icon: const Icon(Icons.delete)),
             ],
           )
         ],

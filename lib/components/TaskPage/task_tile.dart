@@ -12,15 +12,20 @@ class KairosTaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var docId = taskDocumentReference.id;
     final updateTaskController = TextEditingController();
-
-    updateTask() {
-      FirebaseFirestore.instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    var docId = taskDocumentReference.id;
+    updateTask() async {
+      await firestore
           .collection("tasks")
           .doc(docId)
           .update({"taskName": updateTaskController.text}).then((value) =>
               {updateTaskController.clear(), Navigator.pop(context)});
+    }
+
+    deleteTask() async {
+      var docId = taskDocumentReference.id;
+      await firestore.collection("tasks").doc(docId).delete();
     }
 
     return InkWell(
@@ -62,13 +67,7 @@ class KairosTaskTile extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.edit)),
-              IconButton(
-                  onPressed: () async {
-                    FirebaseFirestore firestore = FirebaseFirestore.instance;
-                    var docId = taskDocumentReference.id;
-                    await firestore.collection("tasks").doc(docId).delete();
-                  },
-                  icon: const Icon(Icons.delete)),
+              IconButton(onPressed: deleteTask, icon: const Icon(Icons.delete)),
             ],
           )
         ],
