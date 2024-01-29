@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kairos/components/Common/add_item_modal.dart';
-import 'package:kairos/components/ListPage/kairos_list_tile.dart';
+import 'package:kairos/components/ListPage/list_tile.dart';
 import 'package:kairos/components/kairosAppbar/appbar.dart';
 
 class ListPage extends StatelessWidget {
@@ -69,11 +69,11 @@ class ListPage extends StatelessWidget {
                       icon: const Icon(Icons.add))
                 ],
               ),
-              const Divider(
-                height: 1,
-                color: Colors.black,
-                thickness: 0.1,
-              ),
+              // const Divider(
+              //   height: 1,
+              //   color: Colors.black,
+              //   thickness: 0.1,
+              // ),
               Expanded(
                 child: StreamBuilder(
                     stream: stream,

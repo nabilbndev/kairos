@@ -40,37 +40,79 @@ class KairosTaskTile extends StatelessWidget {
         //   },
         // ));
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(taskDocumentReference["taskName"]),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) {
-                        return UpdateItemModal(
-                            title: "Update task",
-                            textController: updateTaskController,
-                            onTap: updateTask);
-                      },
-                    );
-                  },
-                  icon: const Icon(Icons.edit)),
-              IconButton(onPressed: deleteTask, icon: const Icon(Icons.delete)),
-            ],
-          )
-        ],
+      child: Container(
+        decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(width: 0.2, color: Colors.grey)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(taskDocumentReference["taskName"]),
+                ),
+              ],
+            ),
+            IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(
+                          width: MediaQuery.of(context).size.width * 1,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                  child: Container(
+                                    height: 8,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.grey.withOpacity(0.3),
+                                    ),
+                                  )),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return UpdateItemModal(
+                                            title: "Rename Task",
+                                            textController:
+                                                updateTaskController,
+                                            onTap: updateTask);
+                                      },
+                                    );
+                                  },
+                                  child: const Text("Rename")),
+                              TextButton(
+                                  onPressed: () {
+                                    deleteTask().then(
+                                        (value) => Navigator.pop(context));
+                                  },
+                                  child: const Text(
+                                    "Delete",
+                                    style: TextStyle(color: Colors.red),
+                                  ))
+                            ],
+                          ));
+                    },
+                  );
+                },
+                icon: const Icon(Icons.more_vert))
+          ],
+        ),
       ),
     );
   }

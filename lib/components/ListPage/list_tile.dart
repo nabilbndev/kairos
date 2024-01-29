@@ -40,49 +40,96 @@ class KairosListTile extends StatelessWidget {
           });
     }
 
-    return InkWell(
-      splashColor: Colors.grey,
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            // ignore: prefer_const_constructors
-            return TaskPage(
-              documentReference: listDocumentReference,
-            );
-          },
-        ));
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(listDocumentReference["listName"]),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              // ignore: prefer_const_constructors
+              return TaskPage(
+                documentReference: listDocumentReference,
+              );
+            },
+          ));
+        },
+        child: Card(
+          elevation: 0.2,
+          color: Colors.grey.shade200,
+          child: SizedBox(
+            height: 70,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: Text(
+                    listDocumentReference["listName"],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 16),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return SizedBox(
+                              width: MediaQuery.of(context).size.width * 1,
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 15, 0, 15),
+                                      child: Container(
+                                        height: 8,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.grey.withOpacity(0.3),
+                                        ),
+                                      )),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        await showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (context) {
+                                            return UpdateItemModal(
+                                                title: "Rename List",
+                                                textController:
+                                                    updateNameController,
+                                                onTap: updateList);
+                                          },
+                                        );
+                                      },
+                                      child: const Text("Rename")),
+                                  TextButton(
+                                      onPressed: () {
+                                        deleteList().then(
+                                            (value) => Navigator.pop(context));
+                                      },
+                                      child: const Text(
+                                        "Delete",
+                                        style: TextStyle(color: Colors.red),
+                                      ))
+                                ],
+                              ));
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.more_vert))
+              ],
+            ),
           ),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) {
-                        return UpdateItemModal(
-                            title: "Update list",
-                            textController: updateNameController,
-                            onTap: updateList);
-                      },
-                    );
-                  },
-                  icon: const Icon(Icons.edit)),
-              IconButton(onPressed: deleteList, icon: const Icon(Icons.delete)),
-            ],
-          )
-        ],
+        ),
       ),
     );
   }
