@@ -19,6 +19,7 @@ class TaskPage extends StatelessWidget {
         "taskName": taskNameController.text,
         "userId": userId,
         "listId": documentReference["id"],
+        "taskStatus": "TaskStatus.todo",
         "id": taskDocumentReference.id,
       }).then((value) => {taskNameController.clear(), Navigator.pop(context)});
     }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/Common/task_status_popup.dart';
 import 'package:kairos/components/Common/update_item_modal.dart';
 
 class KairosTaskTile extends StatelessWidget {
@@ -28,6 +29,8 @@ class KairosTaskTile extends StatelessWidget {
       await firestore.collection("tasks").doc(docId).delete();
     }
 
+    final taskStatus = taskDocumentReference["taskStatus"];
+
     return InkWell(
       splashColor: Colors.grey,
       onTap: () {
@@ -49,6 +52,30 @@ class KairosTaskTile extends StatelessWidget {
           children: [
             Row(
               children: [
+                PopupMenuExample(
+                  documentReference: taskDocumentReference,
+                ),
+                Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: taskStatus == "TaskStatus.done"
+                        ? const Text(
+                            'Done',
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          )
+                        : taskStatus == "TaskStatus.inprogress"
+                            ? const Text(
+                                'In Progress',
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.red),
+                              )
+                            : const Text(
+                                'Todo',
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.red),
+                              )),
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Text(taskDocumentReference["taskName"]),
