@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/Common/action_button.dart';
 import 'package:kairos/components/Common/task_status_popup.dart';
 import 'package:kairos/components/Common/update_item_modal.dart';
 
-class KairosTaskTile extends StatelessWidget {
+class KairosTaskTile extends StatefulWidget {
   const KairosTaskTile({
     super.key,
     required this.taskDocumentReference,
@@ -12,10 +13,16 @@ class KairosTaskTile extends StatelessWidget {
   final DocumentSnapshot<Object?> taskDocumentReference;
 
   @override
+  State<KairosTaskTile> createState() => _KairosTaskTileState();
+}
+
+class _KairosTaskTileState extends State<KairosTaskTile> {
+  @override
   Widget build(BuildContext context) {
-    final updateTaskController = TextEditingController();
+    final updateTaskController = TextEditingController(
+        text: "${widget.taskDocumentReference["taskName"]}");
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    var docId = taskDocumentReference.id;
+    var docId = widget.taskDocumentReference.id;
     updateTask() async {
       await firestore
           .collection("tasks")
@@ -25,11 +32,11 @@ class KairosTaskTile extends StatelessWidget {
     }
 
     deleteTask() async {
-      var docId = taskDocumentReference.id;
+      var docId = widget.taskDocumentReference.id;
       await firestore.collection("tasks").doc(docId).delete();
     }
 
-    final taskStatus = taskDocumentReference["taskStatus"];
+    final taskStatus = widget.taskDocumentReference["taskStatus"];
 
     return InkWell(
       splashColor: Colors.grey,
@@ -53,7 +60,7 @@ class KairosTaskTile extends StatelessWidget {
             Row(
               children: [
                 PopupMenuExample(
-                  documentReference: taskDocumentReference,
+                  documentReference: widget.taskDocumentReference,
                 ),
                 Container(
                     padding: const EdgeInsets.all(2),
@@ -78,7 +85,7 @@ class KairosTaskTile extends StatelessWidget {
                               )),
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
-                  child: Text(taskDocumentReference["taskName"]),
+                  child: Text(widget.taskDocumentReference["taskName"]),
                 ),
               ],
             ),
@@ -89,7 +96,7 @@ class KairosTaskTile extends StatelessWidget {
                     builder: (context) {
                       return SizedBox(
                           width: MediaQuery.of(context).size.width * 1,
-                          height: MediaQuery.of(context).size.height * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.3,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -107,31 +114,37 @@ class KairosTaskTile extends StatelessWidget {
                               const SizedBox(
                                 height: 20,
                               ),
-                              TextButton(
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                    await showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (context) {
-                                        return UpdateItemModal(
-                                            title: "Rename Task",
-                                            textController:
-                                                updateTaskController,
-                                            onTap: updateTask);
-                                      },
-                                    );
-                                  },
-                                  child: const Text("Rename")),
-                              TextButton(
-                                  onPressed: () {
+                              ActionButton(
+                                text: "Rename",
+                                textColor: Colors.black,
+                                icon: Icons.edit,
+                                iconColor: Colors.black,
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  await showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return UpdateItemModal(
+                                          title: "Rename Task",
+                                          textController: updateTaskController,
+                                          onTap: updateTask);
+                                    },
+                                  );
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              ActionButton(
+                                  text: "Delete",
+                                  icon: Icons.delete_outline_sharp,
+                                  iconColor: Colors.red,
+                                  onTap: () {
                                     deleteTask().then(
                                         (value) => Navigator.pop(context));
                                   },
-                                  child: const Text(
-                                    "Delete",
-                                    style: TextStyle(color: Colors.red),
-                                  ))
+                                  textColor: Colors.red),
                             ],
                           ));
                     },

@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/Common/action_button.dart';
 import 'package:kairos/components/Common/update_item_modal.dart';
 import 'package:kairos/pages/task_page.dart';
 
-class KairosListTile extends StatelessWidget {
+class KairosListTile extends StatefulWidget {
   const KairosListTile({
     super.key,
     required this.listDocumentReference,
@@ -12,10 +13,16 @@ class KairosListTile extends StatelessWidget {
   final DocumentSnapshot<Object?> listDocumentReference;
 
   @override
+  State<KairosListTile> createState() => _KairosListTileState();
+}
+
+class _KairosListTileState extends State<KairosListTile> {
+  @override
   Widget build(BuildContext context) {
-    final updateNameController = TextEditingController();
+    final updateNameController = TextEditingController(
+        text: "${widget.listDocumentReference["listName"]}");
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    var docId = listDocumentReference.id;
+    var docId = widget.listDocumentReference.id;
 
     updateList() async {
       await firestore
@@ -48,7 +55,7 @@ class KairosListTile extends StatelessWidget {
             builder: (context) {
               // ignore: prefer_const_constructors
               return TaskPage(
-                documentReference: listDocumentReference,
+                documentReference: widget.listDocumentReference,
               );
             },
           ));
@@ -64,7 +71,7 @@ class KairosListTile extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 30.0),
                   child: Text(
-                    listDocumentReference["listName"],
+                    widget.listDocumentReference["listName"],
                     style: const TextStyle(
                         fontWeight: FontWeight.w500, fontSize: 16),
                   ),
@@ -76,7 +83,7 @@ class KairosListTile extends StatelessWidget {
                         builder: (context) {
                           return SizedBox(
                               width: MediaQuery.of(context).size.width * 1,
-                              height: MediaQuery.of(context).size.height * 0.5,
+                              height: MediaQuery.of(context).size.height * 0.3,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -95,31 +102,40 @@ class KairosListTile extends StatelessWidget {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  TextButton(
-                                      onPressed: () async {
-                                        Navigator.pop(context);
-                                        await showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          context: context,
-                                          builder: (context) {
-                                            return UpdateItemModal(
-                                                title: "Rename List",
-                                                textController:
-                                                    updateNameController,
-                                                onTap: updateList);
-                                          },
-                                        );
-                                      },
-                                      child: const Text("Rename")),
-                                  TextButton(
-                                      onPressed: () {
+                                  //
+                                  ActionButton(
+                                    text: "Rename",
+                                    textColor: Colors.black,
+                                    icon: Icons.edit,
+                                    iconColor: Colors.black,
+                                    onTap: () async {
+                                      Navigator.pop(context);
+                                      await showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return UpdateItemModal(
+                                              title: "Rename List",
+                                              textController:
+                                                  updateNameController,
+                                              onTap: updateList);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  //
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  ActionButton(
+                                      text: "Delete",
+                                      icon: Icons.delete_outline_sharp,
+                                      iconColor: Colors.red,
+                                      onTap: () {
                                         deleteList().then(
                                             (value) => Navigator.pop(context));
                                       },
-                                      child: const Text(
-                                        "Delete",
-                                        style: TextStyle(color: Colors.red),
-                                      ))
+                                      textColor: Colors.red),
                                 ],
                               ));
                         },
