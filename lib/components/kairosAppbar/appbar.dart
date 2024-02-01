@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kairos/components/Common/action_button.dart';
 import 'package:kairos/components/kairosAppbar/avatar_wrapper.dart';
 import 'package:kairos/components/kairosAppbar/outlined_vertical_more_icon.dart';
 
@@ -20,7 +21,7 @@ class KairosAppBar extends StatelessWidget {
           builder: (context) {
             return SizedBox(
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.5,
+                height: MediaQuery.of(context).size.height * 0.2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -37,16 +38,16 @@ class KairosAppBar extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    TextButton(
-                        onPressed: () async {
+                    ActionButton(
+                        text: "SignOut",
+                        onTap: () async {
                           await FirebaseAuth.instance
                               .signOut()
                               .then((value) => Navigator.pop(context));
                         },
-                        child: const Text(
-                          "SignOut",
-                          style: TextStyle(color: Colors.red),
-                        ))
+                        textColor: Colors.red,
+                        icon: Icons.exit_to_app,
+                        iconColor: Colors.red),
                   ],
                 ));
           },
